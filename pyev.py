@@ -1,8 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf -*-
 
-import sys, os, unicodedata, re, datetime
-import config
+import sys, os, unicodedata, re, datetime, config, markdown
 from jinja2 import Environment, PackageLoader
 
 def install():
@@ -93,17 +92,18 @@ class Pyev:
                 if e[-1][0].endswith('.markdown'):
                     # read file
                     with open("/".join([e[0], e[-1][0]]), 'r') as f:
-                        markdown = f.read()
+                        markup = f.read()
+                    # TODO: read and skip Yaml from source
                     # TODO: check if we can publish
                     # create directory structure in public dir if needed
                     public_path = "/".join([config.PUBLIC_DIR, e[0]])
                     if not os.path.isdir(public_path):
                         os.makedirs(public_path)
-                    # TODO: skip Yaml from source
-                    # TODO: parse the source file from Markdown
-                    # TODO: call Jinja
+                    # parse the source file from Markdown
+                    content = markdown.markdown(markup)
+                    # call Jinja
                     template = self.jinja.get_template('posts/post.html')
-                    html = template.render(the='variables', go='here')
+                    html = template.render(content=content)
                     # write the html
                     with open(public_path + "/index.html", 'w') as f:
                         f.write(html)
