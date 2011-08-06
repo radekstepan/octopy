@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% block body %}
+{% for post in posts %}
+    Published: {{ post.date }}
+    {{ post.content }}
+{% endfor %}
+{% endblock %}

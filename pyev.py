@@ -9,10 +9,17 @@ def install():
     Configure the app
     """
     cfg = {
+        'LATEST_POSTS': 3,
         'SOURCE_DIR': '',
         'POSTS_DIR': '',
         'PUBLIC_DIR': ''
     }
+
+    # latest posts on index
+    while True:
+        cfg['LATEST_POSTS'] = int(raw_input('How many latest posts to show ').strip())
+        if cfg['LATEST_POSTS']:
+            break
 
     # source directory
     while True:
@@ -87,6 +94,7 @@ class Pyev:
         """
         Publish all content from source dir
         """
+        index = []
         # recursively go through source directories
         for e in os.walk(config.SOURCE_DIR):
             # is file?
@@ -113,7 +121,6 @@ class Pyev:
                                 if key in self.allowed_meta:
                                     meta[key] = line[s+1:]
                     # check if we can publish
-                    print meta
                     if 'publish' in meta and meta['publish'] != 'true':
                         continue
                     # figure target directory
@@ -131,7 +138,18 @@ class Pyev:
                     # write the html
                     with open(public_path + "/index.html", 'w') as f:
                         f.write(html)
-        # TODO: create site index
+                    # save to site index
+                    meta['content'] = content
+                    index.append(meta)
+        if index:
+            # latest posts
+            latest = [index[x] for x in range(config.LATEST_POSTS if config.LATEST_POSTS < len(index) else len(index))]
+            # call Jinja
+            template = self.jinja.get_template('posts/index.html')
+            html = template.render(posts=latest)
+            # write the html
+            with open(config.PUBLIC_DIR + "/index.html", 'w') as f:
+                f.write(html)
         print 'Source published.\n'
 
 if __name__ == '__main__':
