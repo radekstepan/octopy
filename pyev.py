@@ -1,6 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf -*-
-from copy import copy
 
 import sys, os, unicodedata, re, datetime, config, markdown
 from jinja2 import Environment, PackageLoader
@@ -57,6 +56,9 @@ def slugify(value):
 
 class Pyev:
 
+    # these key value pairs are allowed in source
+    allowed_meta = {'layout', 'title', 'date', 'publish'}
+
     def __init__(self):
         self.dir = os.getcwd()
         self.date = datetime.datetime.now()
@@ -96,19 +98,23 @@ class Pyev:
                         markup = f.read()
                     # read and skip Yaml from source
                     src = markup.split('\n')
+                    meta = {}
                     if src[0] == '---':
-                        header = {}
                         for i in range(1, len(src)):
                             line = src[i]
                             if line == '---':
                                 # end the header and strip from source
                                 markup = '\n'.join([src[x] for x in range(i+1, len(src))])
                                 break
-                            key_value = line.split(':')
-                            header[key_value[0].strip()] = key_value[1].strip()
+                            # parse allowed meta
+                            s = line.find(':')
+                            if s > -1:
+                                key = line[:s].strip()
+                                if key in self.allowed_meta:
+                                    meta[key] = line[s+1:]
                     # check if we can publish
-                    if header and 'publish' in header:
-                        if header['publish'] != 'true':
+                    if meta and 'publish' in meta:
+                        if meta['publish'] != 'true':
                             continue
                     # figure target directory
                     public_path = e[0].split('/')
@@ -121,7 +127,7 @@ class Pyev:
                     content = markdown.markdown(markup)
                     # call Jinja
                     template = self.jinja.get_template('posts/post.html')
-                    html = template.render(content=content)
+                    html = template.render(content=content, meta=meta)
                     # write the html
                     with open(public_path + "/index.html", 'w') as f:
                         f.write(html)
