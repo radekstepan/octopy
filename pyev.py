@@ -95,8 +95,11 @@ class Pyev:
                         markup = f.read()
                     # TODO: read and skip Yaml from source
                     # TODO: check if we can publish
+                    # figure target directory
+                    public_path = e[0].split('/')
+                    public_path[0] = config.PUBLIC_DIR
+                    public_path = "/".join(public_path)
                     # create directory structure in public dir if needed
-                    public_path = "/".join([config.PUBLIC_DIR, e[0]])
                     if not os.path.isdir(public_path):
                         os.makedirs(public_path)
                     # parse the source file from Markdown
