@@ -1,7 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf -*-
 
-import sys, os, unicodedata, re
+import sys, os, unicodedata, re, datetime
+import config
 
 class Utils:
 
@@ -9,27 +10,36 @@ class Utils:
         """
         Slugify an input text (Django style)
         """
-        value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore')
+        if isinstance(value, unicode):
+            value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore')
         value = unicode(re.sub('[^\w\s-]', '', value).strip().lower())
         return re.sub('[-\s]+', '-', value)
 
 class Pyev:
 
+    def __init__(self):
+        self.dir = os.getcwd()
+        self.date = datetime.datetime.now()
+
     def install(self):
         """
         Configure the app
         """
-        # config settings to save
         cfg = {
-            'FLASK_PORT' : 5000,
-            'DEBUG' : True,
-            'SECRET_KEY' : ''
+            'SOURCE_DIR': '',
+            'POSTS_DIR': ''
         }
 
-        # flask app port
+        # source directory
         while True:
-            cfg['FLASK_PORT'] = int(raw_input('Flask app port (usually 5000) ').strip())
-            if cfg['FLASK_PORT']:
+            cfg['SOURCE_DIR'] = raw_input('Source directory (usually \'source\') ').strip()
+            if cfg['SOURCE_DIR']:
+                break
+
+        # posts directory
+        while True:
+            cfg['POSTS_DIR'] = raw_input('Posts directory within source directory (usually \'_posts\') ').strip()
+            if cfg['POSTS_DIR']:
                 break
 
         python_code = []
@@ -43,13 +53,23 @@ class Pyev:
         with open(os.getcwd() + '/config.py', 'w') as f:
             f.write('\n'.join(python_code))
 
-        print('\nConfiguration file written successfully.\n')
+        print '\nConfiguration file written successfully.\n'
 
     def new_post(self, title):
         """
         Create a new blog post
         """
-        print title
+        # generate date and slugify
+        u = Utils()
+        path = "/".join([config.SOURCE, config.POSTS,
+                         str(self.date.year), str(self.date.month), str(self.date.day), u.slugify(title)])
+        # post exists?
+        if os.path.isfile(path):
+            print '\This post already exists.\n'
+        else:
+            # create directories
+            os.makedirs(path)
+            # TODO: create post.markdown w/ yaml header
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
