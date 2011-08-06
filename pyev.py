@@ -97,8 +97,8 @@ class Pyev:
                     with open("/".join([e[0], e[-1][0]]), 'r') as f:
                         markup = f.read()
                     # read and skip Yaml from source
+                    meta = {'slug': e[0].split('/')[-1]}
                     src = markup.split('\n')
-                    meta = {}
                     if src[0] == '---':
                         for i in range(1, len(src)):
                             line = src[i]
@@ -113,9 +113,9 @@ class Pyev:
                                 if key in self.allowed_meta:
                                     meta[key] = line[s+1:]
                     # check if we can publish
-                    if meta and 'publish' in meta:
-                        if meta['publish'] != 'true':
-                            continue
+                    print meta
+                    if 'publish' in meta and meta['publish'] != 'true':
+                        continue
                     # figure target directory
                     public_path = e[0].split('/')
                     public_path[0] = config.PUBLIC_DIR
