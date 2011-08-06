@@ -64,12 +64,16 @@ class Pyev:
         path = "/".join([config.SOURCE, config.POSTS,
                          str(self.date.year), str(self.date.month), str(self.date.day), u.slugify(title)])
         # post exists?
-        if os.path.isfile(path):
-            print '\This post already exists.\n'
+        if os.path.isfile(path + "/post.markdown"):
+            print 'This post already exists.\n'
         else:
             # create directories
             os.makedirs(path)
-            # TODO: create post.markdown w/ yaml header
+            # create post.markdown
+            with open(path + "/post.markdown", 'w') as f:
+                f.write('---\nlayout: post\ntitle: "%s"\ndate: %i-%i-%i %i:%i\n---\n' %
+                        (title, self.date.year, self.date.month, self.date.day, self.date.hour, self.date.minute))
+            print 'Post created.\n'
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
