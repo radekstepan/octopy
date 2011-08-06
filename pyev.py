@@ -68,16 +68,43 @@ class Pyev:
         path = "/".join([config.SOURCE_DIR, config.POSTS_DIR,
                          str(self.date.year), str(self.date.month), str(self.date.day), slugify(title)])
         # post exists?
-        if os.path.isfile(path + "/post.markdown"):
+        if os.path.isfile(path + "/index.markdown"):
             print 'This post already exists.\n'
         else:
             # create directories
             os.makedirs(path)
             # create post.markdown
-            with open(path + "/post.markdown", 'w') as f:
+            with open(path + "/index.markdown", 'w') as f:
                 f.write('---\nlayout: post\ntitle: "%s"\ndate: %i-%i-%i %i:%i\n---\n' %
                         (title, self.date.year, self.date.month, self.date.day, self.date.hour, self.date.minute))
             print 'Post created.\n'
+
+    def publish(self):
+        """
+        Publish all content from source dir
+        """
+        # recursively go through source directories
+        for e in os.walk(config.SOURCE_DIR):
+            # is file?
+            if len(e[-1]) > 0:
+                # is .markdown?
+                if e[-1][0].endswith('.markdown'):
+                    # read file
+                    with open("/".join([e[0], e[-1][0]]), 'r') as f:
+                        markdown = f.read()
+                    # TODO: check if we can publish
+                    # create directory structure in public dir
+                    public_path = "/".join([config.PUBLIC_DIR, e[0]])
+                    if not os.path.isdir(public_path):
+                        os.makedirs(public_path)
+                    # TODO: parse the source file from Markdown
+                    # TODO: call Jinja
+                    html = markdown
+                    # write the html
+                    with open(public_path + "/index.html", 'w') as f:
+                        f.write(html)
+        # TODO: create site index
+        print 'Source published.\n'
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
@@ -86,6 +113,9 @@ if __name__ == '__main__':
         if command.find("new_post") > -1:
             p = Pyev()
             p.new_post(command[command.find('[') + 1:command.find(']')])
+        elif command.find('publish') > -1:
+            p = Pyev()
+            p.publish()
         elif command.find('install') > -1:
             install()
         else:
