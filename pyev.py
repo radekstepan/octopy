@@ -3,6 +3,7 @@
 
 import sys, os, unicodedata, re, datetime
 import config
+from jinja2 import Environment, PackageLoader
 
 def install():
     """
@@ -59,6 +60,7 @@ class Pyev:
     def __init__(self):
         self.dir = os.getcwd()
         self.date = datetime.datetime.now()
+        self.jinja = Environment(loader=PackageLoader('pyev', 'templates'))
 
     def new_post(self, title):
         """
@@ -93,13 +95,15 @@ class Pyev:
                     with open("/".join([e[0], e[-1][0]]), 'r') as f:
                         markdown = f.read()
                     # TODO: check if we can publish
-                    # create directory structure in public dir
+                    # create directory structure in public dir if needed
                     public_path = "/".join([config.PUBLIC_DIR, e[0]])
                     if not os.path.isdir(public_path):
                         os.makedirs(public_path)
+                    # TODO: skip Yaml from source
                     # TODO: parse the source file from Markdown
                     # TODO: call Jinja
-                    html = markdown
+                    template = self.jinja.get_template('posts/post.html')
+                    html = template.render(the='variables', go='here')
                     # write the html
                     with open(public_path + "/index.html", 'w') as f:
                         f.write(html)
