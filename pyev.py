@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf -*-
+from copy import copy
 
 import sys, os, unicodedata, re, datetime, config, markdown
 from jinja2 import Environment, PackageLoader
@@ -93,8 +94,22 @@ class Pyev:
                     # read file
                     with open("/".join([e[0], e[-1][0]]), 'r') as f:
                         markup = f.read()
-                    # TODO: read and skip Yaml from source
-                    # TODO: check if we can publish
+                    # read and skip Yaml from source
+                    src = markup.split('\n')
+                    if src[0] == '---':
+                        header = {}
+                        for i in range(1, len(src)):
+                            line = src[i]
+                            if line == '---':
+                                # end the header and strip from source
+                                markup = '\n'.join([src[x] for x in range(i+1, len(src))])
+                                break
+                            key_value = line.split(':')
+                            header[key_value[0].strip()] = key_value[1].strip()
+                    # check if we can publish
+                    if header and 'publish' in header:
+                        if header['publish'] != 'true':
+                            continue
                     # figure target directory
                     public_path = e[0].split('/')
                     public_path[0] = config.PUBLIC_DIR
