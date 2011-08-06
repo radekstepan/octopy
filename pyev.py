@@ -4,16 +4,55 @@
 import sys, os, unicodedata, re, datetime
 import config
 
-class Utils:
+def install():
+    """
+    Configure the app
+    """
+    cfg = {
+        'SOURCE_DIR': '',
+        'POSTS_DIR': '',
+        'PUBLIC_DIR': ''
+    }
 
-    def slugify(self, value):
-        """
-        Slugify an input text (Django style)
-        """
-        if isinstance(value, unicode):
-            value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore')
-        value = unicode(re.sub('[^\w\s-]', '', value).strip().lower())
-        return re.sub('[-\s]+', '-', value)
+    # source directory
+    while True:
+        cfg['SOURCE_DIR'] = raw_input('Source directory (usually \'source\') ').strip()
+        if cfg['SOURCE_DIR']:
+            break
+
+    # posts directory
+    while True:
+        cfg['POSTS_DIR'] = raw_input('Posts directory within source directory (usually \'_posts\') ').strip()
+        if cfg['POSTS_DIR']:
+            break
+
+    # public (target) directory
+    while True:
+        cfg['PUBLIC_DIR'] = raw_input('Public directory with published content (usually \'public\') ').strip()
+        if cfg['PUBLIC_DIR']:
+            break
+
+    python_code = []
+    for key, value in cfg.items():
+        if isinstance(value, str):
+            value = "'" + value.replace("'", r"\'") + "'"
+        elif isinstance(value, list):
+            value = '[]'
+        python_code.append("%s = %s" % (key, value))
+
+    with open(os.getcwd() + '/config.py', 'w') as f:
+        f.write('\n'.join(python_code))
+
+    print '\nConfiguration file written successfully.\n'
+
+def slugify(value):
+    """
+    Slugify an input text (Django style)
+    """
+    if isinstance(value, unicode):
+        value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore')
+    value = unicode(re.sub('[^\w\s-]', '', value).strip().lower())
+    return re.sub('[-\s]+', '-', value)
 
 class Pyev:
 
@@ -21,48 +60,13 @@ class Pyev:
         self.dir = os.getcwd()
         self.date = datetime.datetime.now()
 
-    def install(self):
-        """
-        Configure the app
-        """
-        cfg = {
-            'SOURCE_DIR': '',
-            'POSTS_DIR': ''
-        }
-
-        # source directory
-        while True:
-            cfg['SOURCE_DIR'] = raw_input('Source directory (usually \'source\') ').strip()
-            if cfg['SOURCE_DIR']:
-                break
-
-        # posts directory
-        while True:
-            cfg['POSTS_DIR'] = raw_input('Posts directory within source directory (usually \'_posts\') ').strip()
-            if cfg['POSTS_DIR']:
-                break
-
-        python_code = []
-        for key, value in cfg.items():
-            if isinstance(value, str):
-                value = "'" + value.replace("'", r"\'") + "'"
-            elif isinstance(value, list):
-                value = '[]'
-            python_code.append("%s = %s" % (key, value))
-
-        with open(os.getcwd() + '/config.py', 'w') as f:
-            f.write('\n'.join(python_code))
-
-        print '\nConfiguration file written successfully.\n'
-
     def new_post(self, title):
         """
         Create a new blog post
         """
         # generate date and slugify
-        u = Utils()
-        path = "/".join([config.SOURCE, config.POSTS,
-                         str(self.date.year), str(self.date.month), str(self.date.day), u.slugify(title)])
+        path = "/".join([config.SOURCE_DIR, config.POSTS_DIR,
+                         str(self.date.year), str(self.date.month), str(self.date.day), slugify(title)])
         # post exists?
         if os.path.isfile(path + "/post.markdown"):
             print 'This post already exists.\n'
@@ -78,11 +82,11 @@ class Pyev:
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         command = sys.argv[1].strip()
-        p = Pyev()
 
         if command.find("new_post") > -1:
+            p = Pyev()
             p.new_post(command[command.find('[') + 1:command.find(']')])
         elif command.find('install') > -1:
-            p.install()
+            install()
         else:
             print '\nTask not recognized.\n'
