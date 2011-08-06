@@ -54,6 +54,11 @@ class Pyev:
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         command = sys.argv[1].strip()
+        p = Pyev()
+
         if command.find("new_post") > -1:
-            p = Pyev()
             p.new_post(command[command.find('[') + 1:command.find(']')])
+        elif command.find('install') > -1:
+            p.install()
+        else:
+            print '\nTask not recognized.\n'
