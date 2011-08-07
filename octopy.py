@@ -233,7 +233,9 @@ class Pyev:
                         index.append(meta)
         if index:
             # latest posts
-            latest = [index[x] for x in range(config.LATEST_POSTS if config.LATEST_POSTS < len(index) else len(index))]
+            latest = [sorted(index, key=lambda post_date: post_date['date'], reverse=True)[x]
+                      for x in range(config.LATEST_POSTS if config.LATEST_POSTS < len(index) else len(index))]
+
             # call Jinja
             template = self.jinja.get_template('posts/index.html')
             html = template.render(posts=latest, base_url=config.BASE_URL, title=config.TITLE, subtitle=config.SUBTITLE)
