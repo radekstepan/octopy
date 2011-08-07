@@ -9,12 +9,26 @@ def install():
     Configure the app
     """
     cfg = {
+        'TITLE': 'octopy',
+        'SUBTITLE': 'A static site generator',
         'LATEST_POSTS': 3,
         'SOURCE_DIR': '',
         'POSTS_DIR': '',
         'PUBLIC_DIR': '',
         'BASE_URL': ''
     }
+
+    # site title
+    while True:
+        cfg['TITLE'] = raw_input('Site title, used in the header and title tags ').strip()
+        if cfg['TITLE']:
+            break
+
+    # site subtitle
+    while True:
+        cfg['SUBTITLE'] = raw_input('Site subtitle, a description used in the header ').strip()
+        if cfg['SUBTITLE']:
+            break
 
     # latest posts on index
     while True:
@@ -174,7 +188,8 @@ class Pyev:
                     content = markdown.markdown(markup)
                     # call Jinja
                     template = self.jinja.get_template('posts/post.html')
-                    html = template.render(content=content, meta=meta, base_url=config.BASE_URL)
+                    html = template.render(content=content, meta=meta, base_url=config.BASE_URL, title=config.TITLE,
+                                           subtitle=config.SUBTITLE, page_title=meta['title'])
                     # write the html
                     with codecs.open(public_path + "/index.html", 'w', 'utf-8') as f:
                         f.write(html)
@@ -187,7 +202,7 @@ class Pyev:
             latest = [index[x] for x in range(config.LATEST_POSTS if config.LATEST_POSTS < len(index) else len(index))]
             # call Jinja
             template = self.jinja.get_template('posts/index.html')
-            html = template.render(posts=latest, base_url=config.BASE_URL)
+            html = template.render(posts=latest, base_url=config.BASE_URL, title=config.TITLE, subtitle=config.SUBTITLE)
             # write the html
             with codecs.open(config.PUBLIC_DIR + "/index.html", 'w', 'utf-8') as f:
                 f.write(html)

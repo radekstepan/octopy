@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
 
-	<title>octopy</title>
+	<title>{{ title }}{% if page_title %}: {{ page_title }}{% endif %}</title>
 
     <base href="{{ base_url }}"/>
 
@@ -12,7 +12,7 @@
 </head>
 <body>
     <header class="title">
-        <p><a href="/">octopy</a> A static site generator</p>
+        <p><a href="/">{{ title }}</a> {{ subtitle }}</p>
     </header>
     <nav>
         <ul>
