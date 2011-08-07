@@ -1,4 +1,4 @@
-# pyèv
+# octopy
 
 A blog aware static site generator.
 
