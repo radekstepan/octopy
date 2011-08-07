@@ -4,11 +4,10 @@ body { margin:0 auto; width:1080px; font-family:"PT Serif", "Georgia", "Helvetic
 a { transition:color 0.3s; -moz-transition:color 0.3s ease 0s; -webkit-transition:color 0.3s; -o-transition:color 0.3s;
     color:#1863A1; }
 
-header { background:#263347; }
-    header hgroup { padding:40px; }
-        header hgroup p { font-size:22px; color:#BAC7DA; font-family:'PT Sans', 'Helvetica Neue', Arial, sans-serif; }
-            header hgroup p a { display:block; font-size:50px; color:#FFF; text-decoration:none; font-family:"PT Serif",
-                "Georgia", "Helvetica Neue", Arial, sans-serif; margin-bottom:6px; }
+header.title { background:#263347; }
+    header.title p { padding:40px; font-size:22px; color:#BAC7DA; font-family:'PT Sans', 'Helvetica Neue', Arial, sans-serif; }
+        header.title p a { display:block; font-size:50px; color:#FFF; text-decoration:none; font-family:"PT Serif",
+            "Georgia", "Helvetica Neue", Arial, sans-serif; margin-bottom:6px; }
 
 nav { background-color:#C5DCBB; background:url('../img/noise.png'), linear-gradient(#DCEAD6, #C5DCBB, #A5C896);
     background:url('../img/noise.png'), -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #DCEAD6),
@@ -23,6 +22,7 @@ nav { background-color:#C5DCBB; background:url('../img/noise.png'), linear-gradi
         nav ul li a:hover { color:#25381D; }
 
 section { background:#FFF; padding-bottom:40px; }
+    section header { border-bottom:1px dashed #B6B6B6; margin-bottom:25px; }
     section h1 { color:#222; font-size:36px; font-weight:bold; margin-bottom:30px; }
         section h1 a { text-decoration:none; color:inherit; }
         section h1 a:hover { text-decoration:underline; color:#0181EB; }
@@ -34,6 +34,6 @@ article:not(:first-child) { border-top:1px dashed #B6B6B6; }
     article p.meta { margin-bottom:16px; color:#AAA; font-family:'PT Sans', 'Helvetica Neue', Arial, sans-serif;
         font-size:15px; line-height:20px; }
     section ol, section ul { margin-left:24px; }
-    article h2 { border-top:1px dashed #B6B6B6; padding-top:20px; margin-bottom:20px; font-size:26px; font-weight:bold; }
+    article h2 { margin-bottom:20px; font-size:26px; font-weight:bold; }
     article h3 { font-size:22px; font-weight:bold; margin-bottom:22px; }
     article h4 { font-size:17px; font-weight:bold; margin-bottom:17px; }

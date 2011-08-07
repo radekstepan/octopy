@@ -1,12 +1,14 @@
 {% extends "layout.html" %}
 {% block body %}
 {% for post in posts %}
-<article>
-    <p class="meta">
-        <time datetime="{{ post.date }}" pubdate>{{ post.date|date }}</time>
-    </p>
-    <h1><a href="{{ post.path }}">{{ post.title }}</a></h1>
-    {{ post.content }}
-</article>
+    <article>
+        <header>
+            <p class="meta">
+                <time datetime="{{ post.date }}" pubdate>{{ post.date|date }}</time>
+            </p>
+            <h1><a href="{{ post.path }}">{{ post.title }}</a></h1>
+        </header>
+        {{ post.content }}
+    </article>
 {% endfor %}
 {% endblock %}
