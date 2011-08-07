@@ -105,7 +105,7 @@ def date_filter(value):
     # format
     value = datetime.datetime.strptime(value, '%Y-%m-%d %H:%M').strftime('%b %d %Y').split()
     # st, nd, rd, th suffix
-    value[1] = '%s%s,' % (value[1], suffix(int(value[1])))
+    value[1] = '%s%s,' % (value[1].lstrip('0'), suffix(int(value[1])))
     return ' '.join(value)
 
 class Pyev:
