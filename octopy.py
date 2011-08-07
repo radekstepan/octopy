@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf -*-
 
-import sys, os, unicodedata, re, datetime, config, markdown
+import sys, os, unicodedata, re, datetime, markdown
 from jinja2 import Environment, PackageLoader
 
 def install():
@@ -69,12 +69,14 @@ class Pyev:
     def __init__(self):
         self.dir = os.getcwd()
         self.date = datetime.datetime.now()
-        self.jinja = Environment(loader=PackageLoader('pyev', 'templates'))
+        self.jinja = Environment(loader=PackageLoader('octopy', 'templates'))
 
     def new_post(self, title):
         """
         Create a new blog post
         """
+        import config
+
         # generate date and slugify
         path = "/".join([config.SOURCE_DIR, config.POSTS_DIR,
                          str(self.date.year), str(self.date.month), str(self.date.day), slugify(title)])
@@ -94,6 +96,8 @@ class Pyev:
         """
         Publish all content from source dir
         """
+        import config
+
         index = []
         # recursively go through source directories
         for e in os.walk(config.SOURCE_DIR):
