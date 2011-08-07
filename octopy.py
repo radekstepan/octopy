@@ -144,6 +144,9 @@ class Pyev:
                         f.write(html)
                     # save to site index
                     meta['content'] = content
+                    path = public_path.split('/')
+                    del(path[0])
+                    meta['path'] = '/'.join(path)
                     index.append(meta)
         if index:
             # latest posts

@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
 {% for post in posts %}
+    <h1><a href="{{ post.path }}">{{ post.title }}</a></h1>
     Published: {{ post.date }}
     {{ post.content }}
 {% endfor %}
