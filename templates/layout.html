@@ -5,17 +5,23 @@
 
 	<title>octopy</title>
 
-    <link rel="stylesheet" type="text/css" href="css/reset.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="../templates/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../templates/css/style.css">
 </head>
 <body>
     <header>
-        <div id="title">octopy static site generator</div>
+        <hgroup>
+            <p><a href="/">octopy</a> A static site generator</p>
+        </hgroup>
     </header>
+    <nav>
+        <ul>
+            <li><a href="/">Blog</a></li>
+            <li><a href="/about/">About</a></li>
+        </ul>
+    </nav>
     <section>
-        <article>
-            {% block body %}{% endblock %}
-        </article>
+        {% block body %}{% endblock %}
     </section>
     <footer>Powered by octopy</footer>
 </body>

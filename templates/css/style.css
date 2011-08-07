@@ -1,0 +1,23 @@
+html { background:#252525; }
+body { margin:0 auto; width:1080px; font-family:"PT Serif", "Georgia", "Helvetica Neue", Arial, sans-serif; }
+
+header { background:#263347; }
+    header hgroup { padding:40px; }
+        header hgroup p { font-size:22px; color:#BAC7DA; font-family:'PT Sans', 'Helvetica Neue', Arial, sans-serif; }
+            header hgroup p a { display:block; font-size:50px; color:#FFF; text-decoration:none; font-family:"PT Serif",
+                "Georgia", "Helvetica Neue", Arial, sans-serif; margin-bottom:6px; }
+
+nav { background-color:#C5DCBB; background:url('../img/noise.png'), linear-gradient(#DCEAD6, #C5DCBB, #A5C896);
+    background:url('../img/noise.png'), -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #DCEAD6),
+    color-stop(50%, #C5DCBB), color-stop(100%, #A5C896)); font-family:'PT Sans', 'Helvetica Neue', Arial, sans-serif;
+    border-top:1px solid #F0F6ED; border-bottom:1px solid #7DB067; }
+    nav ul { margin-left:34px; padding:6px 0; }
+        nav ul li { display:inline-block; vertical-align:middle; margin-left:6px; padding:2px 0; }
+        nav ul li:not(:first-child) { border-left:1px solid #A5C896;}
+        nav ul li:not(:first-child) a { border-left:1px solid #D9E8D3; padding-left:6px; }
+        nav ul li a { color:#5D8C49; text-shadow:#E7F1E3 0 1px; font-size:18px; text-decoration:none; float:left;
+            padding:2px 0; }
+
+section { padding:40px; background:#FFF; }
+    section h1 { color:#222; font-size:40px; }
+        section h1 a { text-decoration:none; color:inherit; }
