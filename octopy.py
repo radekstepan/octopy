@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf -*-
 
-import sys, os, unicodedata, re, datetime, markdown
+import sys, os, codecs, unicodedata, re, datetime, markdown
 from jinja2 import Environment, PackageLoader
 
 def install():
@@ -106,7 +106,7 @@ class Pyev:
                 # is .markdown?
                 if e[-1][0].endswith('.markdown'):
                     # read file
-                    with open("/".join([e[0], e[-1][0]]), 'r') as f:
+                    with codecs.open("/".join([e[0], e[-1][0]]), 'r', 'utf-8') as f:
                         markup = f.read()
                     # read and skip Yaml from source
                     meta = {'slug': e[0].split('/')[-1]}
@@ -140,7 +140,7 @@ class Pyev:
                     template = self.jinja.get_template('posts/post.html')
                     html = template.render(content=content, meta=meta)
                     # write the html
-                    with open(public_path + "/index.html", 'w') as f:
+                    with codecs.open(public_path + "/index.html", 'w', 'utf-8') as f:
                         f.write(html)
                     # save to site index
                     meta['content'] = content
@@ -152,7 +152,7 @@ class Pyev:
             template = self.jinja.get_template('posts/index.html')
             html = template.render(posts=latest)
             # write the html
-            with open(config.PUBLIC_DIR + "/index.html", 'w') as f:
+            with codecs.open(config.PUBLIC_DIR + "/index.html", 'w', 'utf-8') as f:
                 f.write(html)
         print 'Source published.\n'
 
