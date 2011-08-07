@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf -*-
 
-import sys, os, codecs, unicodedata, re, datetime, markdown
+import sys, os, codecs, unicodedata, re, datetime, markdown, shutil
 from jinja2 import Environment, PackageLoader
 
 def install():
@@ -142,6 +142,26 @@ class Pyev:
                         (title, self.date.year, self.date.month, self.date.day, self.date.hour, self.date.minute))
             print 'Post created.\n'
 
+    def new_page(self, title):
+        """
+        Create a new page
+        """
+        import config
+
+        # slugify
+        path = "/".join([config.SOURCE_DIR, slugify(title)])
+        # page exists?
+        if os.path.isfile(path + "/index.markdown"):
+            print 'This page already exists.\n'
+        else:
+            # create directories
+            os.makedirs(path)
+            # create page.markdown
+            with open(path + "/index.markdown", 'w') as f:
+                f.write('---\nlayout: page\ntitle: "%s"\ndate: %i-%i-%i %i:%i\n---\n' %
+                        (title, self.date.year, self.date.month, self.date.day, self.date.hour, self.date.minute))
+            print 'Page created.\n'
+
     def publish(self):
         """
         Publish all content from source dir
@@ -177,8 +197,9 @@ class Pyev:
                     # check if we can publish
                     if 'publish' in meta and meta['publish'] != 'true':
                         continue
-                    # figure target directory
+                    # figure target directory and published directory
                     public_path = e[0].split('/')
+                    meta['path'] = '/'.join([public_path[x] for x in range(1, len(public_path))])
                     public_path[0] = config.PUBLIC_DIR
                     public_path = "/".join(public_path)
                     # create directory structure in public dir if needed
@@ -187,16 +208,19 @@ class Pyev:
                     # parse the source file from Markdown
                     content = markdown.markdown(markup)
                     # call Jinja
-                    template = self.jinja.get_template('posts/post.html')
+                    if meta['layout'] == 'post':
+                        template = self.jinja.get_template('posts/post.html')
+                    else:
+                        template = self.jinja.get_template('pages/page.html')
                     html = template.render(content=content, meta=meta, base_url=config.BASE_URL, title=config.TITLE,
                                            subtitle=config.SUBTITLE, page_title=meta['title'])
                     # write the html
                     with codecs.open(public_path + "/index.html", 'w', 'utf-8') as f:
                         f.write(html)
-                    # save to site index
+                    # save to site index if is post
                     meta['content'] = content
-                    meta['path'] = public_path
-                    index.append(meta)
+                    if meta['layout'] == 'post':
+                        index.append(meta)
         if index:
             # latest posts
             latest = [index[x] for x in range(config.LATEST_POSTS if config.LATEST_POSTS < len(index) else len(index))]
@@ -206,6 +230,18 @@ class Pyev:
             # write the html
             with codecs.open(config.PUBLIC_DIR + "/index.html", 'w', 'utf-8') as f:
                 f.write(html)
+        
+        # copy over css, js, img
+        for d in ('css', 'img', 'js'):
+            if os.path.isdir('templates/%s' % d):
+                for e in os.walk('templates/%s' % d):
+                    if e[-1]:
+                        target_dir = e[0].replace('templates/', '%s/' % config.PUBLIC_DIR)
+                        if not os.path.exists(target_dir):
+                            os.makedirs(target_dir)
+                        for f in e[-1]:
+                            shutil.copyfile('/'.join([e[0], f]), '/'.join([target_dir, f]))
+        
         print 'Source published.\n'
 
 if __name__ == '__main__':
@@ -215,6 +251,9 @@ if __name__ == '__main__':
         if command.find("new_post") > -1:
             p = Pyev()
             p.new_post(command[command.find('[') + 1:command.find(']')])
+        elif command.find("new_page") > -1:
+            p = Pyev()
+            p.new_page(command[command.find('[') + 1:command.find(']')])
         elif command.find('publish') > -1:
             p = Pyev()
             p.publish()

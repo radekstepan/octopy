@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+<article>
+    <header>
+        <p class="meta">
+            <time datetime="{{ meta.date }}" pubdate>{{ meta.date|date }}</time>
+        </p>
+        <h1>{{ meta.title }}</h1>
+    </header>
+    {{ content }}
+</article>
+{% endblock %}
