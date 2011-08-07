@@ -5,8 +5,10 @@
 
 	<title>octopy</title>
 
-    <link rel="stylesheet" type="text/css" href="../templates/css/reset.css">
-    <link rel="stylesheet" type="text/css" href="../templates/css/style.css">
+    <base href="{{ base_url }}"/>
+
+    <link rel="stylesheet" type="text/css" href="templates/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="templates/css/style.css">
 </head>
 <body>
     <header>
@@ -16,8 +18,8 @@
     </header>
     <nav>
         <ul>
-            <li><a href="/">Blog</a></li>
-            <li><a href="/about/">About</a></li>
+            <li><a href="{{ base_url }}">Blog</a></li>
+            <li><a href="{{ base_url }}/about/">About</a></li>
         </ul>
     </nav>
     <section>

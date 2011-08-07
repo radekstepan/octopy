@@ -12,7 +12,8 @@ def install():
         'LATEST_POSTS': 3,
         'SOURCE_DIR': '',
         'POSTS_DIR': '',
-        'PUBLIC_DIR': ''
+        'PUBLIC_DIR': '',
+        'BASE_URL': ''
     }
 
     # latest posts on index
@@ -37,6 +38,12 @@ def install():
     while True:
         cfg['PUBLIC_DIR'] = raw_input('Public directory with published content (usually \'public\') ').strip()
         if cfg['PUBLIC_DIR']:
+            break
+
+    # base url for the site
+    while True:
+        cfg['BASE_URL'] = raw_input('Base url for the site (e.g. \'http://localhost\') ').strip()
+        if cfg['BASE_URL']:
             break
 
     python_code = []
@@ -167,22 +174,20 @@ class Pyev:
                     content = markdown.markdown(markup)
                     # call Jinja
                     template = self.jinja.get_template('posts/post.html')
-                    html = template.render(content=content, meta=meta)
+                    html = template.render(content=content, meta=meta, base_url=config.BASE_URL)
                     # write the html
                     with codecs.open(public_path + "/index.html", 'w', 'utf-8') as f:
                         f.write(html)
                     # save to site index
                     meta['content'] = content
-                    path = public_path.split('/')
-                    del(path[0])
-                    meta['path'] = '/'.join(path)
+                    meta['path'] = public_path
                     index.append(meta)
         if index:
             # latest posts
             latest = [index[x] for x in range(config.LATEST_POSTS if config.LATEST_POSTS < len(index) else len(index))]
             # call Jinja
             template = self.jinja.get_template('posts/index.html')
-            html = template.render(posts=latest)
+            html = template.render(posts=latest, base_url=config.BASE_URL)
             # write the html
             with codecs.open(config.PUBLIC_DIR + "/index.html", 'w', 'utf-8') as f:
                 f.write(html)
