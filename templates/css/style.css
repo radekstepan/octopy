@@ -37,3 +37,5 @@ article:not(:first-child) { border-top:1px dashed #B6B6B6; }
     article h2 { margin-bottom:20px; font-size:26px; font-weight:bold; }
     article h3 { font-size:22px; font-weight:bold; margin-bottom:22px; }
     article h4 { font-size:17px; font-weight:bold; margin-bottom:17px; }
+    article footer a { background:#EBEBEB; font-size:18px; color:#666; padding:7px 14px; text-decoration:none; }
+        article footer a:hover { background:#0181EB; color:#F8F8F8; }

@@ -12,6 +12,7 @@ def install():
         'TITLE': 'octopy',
         'SUBTITLE': 'A static site generator',
         'LATEST_POSTS': 3,
+        'POST_PREVIEW_CUTOFF': 250, # after how many chars to try to cutoff a post preview from listing
         'SOURCE_DIR': '',
         'POSTS_DIR': '',
         'PUBLIC_DIR': '',
@@ -138,7 +139,7 @@ class Pyev:
             os.makedirs(path)
             # create post.markdown
             with open(path + "/index.markdown", 'w') as f:
-                f.write('---\nlayout: post\ntitle: "%s"\ndate: %i-%i-%i %i:%i\n---\n' %
+                f.write('---\nlayout: post\ntitle: %s\ndate: %i-%i-%i %i:%i\n---\n' %
                         (title, self.date.year, self.date.month, self.date.day, self.date.hour, self.date.minute))
             print 'Post created.\n'
 
@@ -147,7 +148,7 @@ class Pyev:
         Create a new page
         """
         import config
-
+        
         # slugify
         path = "/".join([config.SOURCE_DIR, slugify(title)])
         # page exists?
@@ -218,8 +219,17 @@ class Pyev:
                     with codecs.open(public_path + "/index.html", 'w', 'utf-8') as f:
                         f.write(html)
                     # save to site index if is post
-                    meta['content'] = content
                     if meta['layout'] == 'post':
+                        # preview for homepage?
+                        i = config.POST_PREVIEW_CUTOFF
+                        content = []
+                        for block in markup.split('\n\n'):
+                            i -= len(block)
+                            content.append(block)
+                            if i < 0:
+                                meta['more_content'] = True
+                                break
+                        meta['content'] = markdown.markdown('\n\n'.join(content))
                         index.append(meta)
         if index:
             # latest posts

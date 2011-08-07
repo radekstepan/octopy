@@ -8,7 +8,14 @@
             </p>
             <h1><a href="{{ post.path }}">{{ post.title }}</a></h1>
         </header>
-        {{ post.content }}
+        <div class="content">
+            {{ post.content }}
+        </div>
+        {% if post.more_content %}
+            <footer>
+                <a href="{{ post.path }}" rel="full-article">Read on &rarr;</a>
+            </footer>
+        {% endif %}
     </article>
 {% endfor %}
 {% endblock %}
