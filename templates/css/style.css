@@ -1,6 +1,8 @@
 html { background:#252525; }
 body { margin:0 auto; width:1080px; font-family:"PT Serif", "Georgia", "Helvetica Neue", Arial, sans-serif; }
 
+a { transition:color 0.3s; -moz-transition:color 0.3s ease 0s; -webkit-transition:color 0.3s; -o-transition:color 0.3s; }
+
 header { background:#263347; }
     header hgroup { padding:40px; }
         header hgroup p { font-size:22px; color:#BAC7DA; font-family:'PT Sans', 'Helvetica Neue', Arial, sans-serif; }
@@ -17,7 +19,15 @@ nav { background-color:#C5DCBB; background:url('../img/noise.png'), linear-gradi
         nav ul li:not(:first-child) a { border-left:1px solid #D9E8D3; padding-left:6px; }
         nav ul li a { color:#5D8C49; text-shadow:#E7F1E3 0 1px; font-size:18px; text-decoration:none; float:left;
             padding:2px 0; }
+        nav ul li a:hover { color:#25381D; }
 
-section { padding:40px; background:#FFF; }
-    section h1 { color:#222; font-size:40px; }
+section { background:#FFF; padding-bottom:40px; }
+    section h1 { color:#222; font-size:36px; font-weight:bold; }
         section h1 a { text-decoration:none; color:inherit; }
+        section h1 a:hover { text-decoration:underline; color:#0181EB; }
+    section time { text-transform:uppercase; }
+
+article { padding:40px; }
+article:not(:first-child) { border-top:1px dashed #B6B6B6; }
+    article p.meta { margin-bottom:16px; color:#AAA; font-family:'PT Sans', 'Helvetica Neue', Arial, sans-serif;
+        font-size:15px; }

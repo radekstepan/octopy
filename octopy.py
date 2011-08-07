@@ -61,6 +61,32 @@ def slugify(value):
     value = unicode(re.sub('[^\w\s-]', '', value).strip().lower())
     return re.sub('[-\s]+', '-', value)
 
+
+def date_filter(value):
+    """
+    A Jinja filter for displaying dates from Yaml value
+    """
+    def suffix(day):
+        if day in (11, 12, 13):
+            return 'th'
+        else:
+            day %= 10
+        if day == 1:
+            return 'st'
+        if day == 2:
+            return 'nd'
+        if day == 3:
+            return 'rd'
+        return 'th'
+
+    # pad with extra zeroes, not required, but fun :)
+    value = re.sub("-(?!0)", "-0", value)
+    # format
+    value = datetime.datetime.strptime(value, '%Y-%m-%d %H:%M').strftime('%b %d %Y').split()
+    # st, nd, rd, th suffix
+    value[1] = '%s%s,' % (value[1], suffix(int(value[1])))
+    return ' '.join(value)
+
 class Pyev:
 
     # these key value pairs are allowed in source
@@ -69,7 +95,10 @@ class Pyev:
     def __init__(self):
         self.dir = os.getcwd()
         self.date = datetime.datetime.now()
+
+        # Jinja
         self.jinja = Environment(loader=PackageLoader('octopy', 'templates'))
+        self.jinja.filters['date'] = date_filter
 
     def new_post(self, title):
         """
@@ -123,7 +152,7 @@ class Pyev:
                             if s > -1:
                                 key = line[:s].strip()
                                 if key in self.allowed_meta:
-                                    meta[key] = line[s+1:]
+                                    meta[key] = line[s+1:].strip()
                     # check if we can publish
                     if 'publish' in meta and meta['publish'] != 'true':
                         continue
