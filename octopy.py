@@ -242,7 +242,7 @@ class Pyev:
 
                 # call Jinja for archive
                 template = self.jinja.get_template('posts/archive.html')
-                html = template.render(base_url=config.BASE_URL, title=config.TITLE, subtitle=config.SUBTITLE)
+                html = template.render(base_url=config.BASE_URL, title=config.TITLE, subtitle=config.SUBTITLE, posts=index)
                 # write the html
                 archives_dir = '/'.join([config.PUBLIC_DIR , config.POSTS_DIR, "archives"])
                 if not os.path.isdir(archives_dir):

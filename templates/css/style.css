@@ -34,7 +34,7 @@ article:not(:first-child) { border-top:1px dashed #B6B6B6; }
     article p.meta { margin-bottom:16px; color:#AAA; font-family:'PT Sans', 'Helvetica Neue', Arial, sans-serif;
         font-size:15px; line-height:20px; }
     section ol, section ul { margin-left:24px; }
-    article h2 { margin-bottom:20px; font-size:26px; font-weight:bold; }
+    article h2 { margin-bottom:20px; font-size:27px; font-weight:bold; }
     article h3 { font-size:22px; font-weight:bold; margin-bottom:22px; }
     article h4 { font-size:17px; font-weight:bold; margin-bottom:17px; }
     article footer a { background:#EBEBEB; font-size:18px; color:#666; padding:7px 14px; text-decoration:none; }
@@ -43,3 +43,9 @@ article:not(:first-child) { border-top:1px dashed #B6B6B6; }
 nav.pagination { border-top:1px dashed #B6B6B6; margin:0 40px; padding-top:30px; text-align:center; }
     nav.pagination a { color:#AAA; text-decoration:none; font-size:17px; }
     nav.pagination a:hover { color:#0181EB; }
+
+#blog-archive article { padding:10px; }
+#blog-archive h2 { display:inline-block; }
+#blog-archive h2 a { color:#222; text-decoration:none; }
+#blog-archive h2 a:hover { color:#0181EB; text-decoration:underline; }
+#blog-archive p.meta { display:inline-block; vertical-align:bottom; width:130px; }

@@ -1,8 +1,19 @@
 {% extends "layout.html" %}
 {% block body %}
 <article>
-    <header>
-        <h1>Blog Archive</h1>
-    </header>
+<header>
+    <h1>Blog Archive</h1>
+</header>
+
+<div id="blog-archive">
+{% for post in posts %}
+    <article>
+        <p class="meta">
+            <time datetime="{{ post.date }}" pubdate>{{ post.date|date }}</time>
+        </p>
+        <h2><a href="{{ post.path }}">{{ post.title }}</a></h2>
+    </article>
+{% endfor %}
+</div>
 </article>
 {% endblock %}
