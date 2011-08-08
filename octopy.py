@@ -236,13 +236,28 @@ class Pyev:
             latest = [sorted(index, key=lambda post_date: post_date['date'], reverse=True)[x]
                       for x in range(config.LATEST_POSTS if config.LATEST_POSTS < len(index) else len(index))]
 
-            # call Jinja
+            # should we display an archive?
+            if latest < index:
+                archive_link = config.BASE_URL+config.POSTS_DIR+'/archives'
+
+                # call Jinja for archive
+                template = self.jinja.get_template('posts/archive.html')
+                html = template.render(base_url=config.BASE_URL, title=config.TITLE, subtitle=config.SUBTITLE)
+                # write the html
+                archives_dir = '/'.join([config.PUBLIC_DIR , config.POSTS_DIR, "archives"])
+                if not os.path.isdir(archives_dir):
+                    os.makedirs(archives_dir)
+                with codecs.open(archives_dir + "/index.html", 'w', 'utf-8') as f:
+                    f.write(html)
+
+            # call Jinja for index
             template = self.jinja.get_template('posts/index.html')
-            html = template.render(posts=latest, base_url=config.BASE_URL, title=config.TITLE, subtitle=config.SUBTITLE)
+            html = template.render(posts=latest, base_url=config.BASE_URL, title=config.TITLE, subtitle=config.SUBTITLE,
+                                   archive_link=archive_link)
             # write the html
             with codecs.open(config.PUBLIC_DIR + "/index.html", 'w', 'utf-8') as f:
                 f.write(html)
-        
+
         # copy over css, js, img
         for d in ('css', 'img', 'js'):
             if os.path.isdir('templates/%s' % d):

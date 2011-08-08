@@ -9,17 +9,17 @@ header.title { background:#263347; }
         header.title p a { display:block; font-size:50px; color:#FFF; text-decoration:none; font-family:"PT Serif",
             "Georgia", "Helvetica Neue", Arial, sans-serif; margin-bottom:6px; }
 
-nav { background-color:#C5DCBB; background:url('../img/noise.png'), linear-gradient(#DCEAD6, #C5DCBB, #A5C896);
+nav.main { background-color:#C5DCBB; background:url('../img/noise.png'), linear-gradient(#DCEAD6, #C5DCBB, #A5C896);
     background:url('../img/noise.png'), -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #DCEAD6),
     color-stop(50%, #C5DCBB), color-stop(100%, #A5C896)); font-family:'PT Sans', 'Helvetica Neue', Arial, sans-serif;
     border-top:1px solid #F0F6ED; border-bottom:1px solid #7DB067; }
-    nav ul { margin-left:34px; padding:6px 0; }
-        nav ul li { display:inline-block; vertical-align:middle; margin-left:6px; padding:2px 0; }
-        nav ul li:not(:first-child) { border-left:1px solid #A5C896;}
-        nav ul li:not(:first-child) a { border-left:1px solid #D9E8D3; padding-left:6px; }
-        nav ul li a { color:#5D8C49; text-shadow:#E7F1E3 0 1px; font-size:18px; text-decoration:none; float:left;
+    nav.main ul { margin-left:34px; padding:6px 0; }
+        nav.main ul li { display:inline-block; vertical-align:middle; margin-left:6px; padding:2px 0; }
+        nav.main ul li:not(:first-child) { border-left:1px solid #A5C896;}
+        nav.main ul li:not(:first-child) a { border-left:1px solid #D9E8D3; padding-left:6px; }
+        nav.main ul li a { color:#5D8C49; text-shadow:#E7F1E3 0 1px; font-size:18px; text-decoration:none; float:left;
             padding:2px 0; }
-        nav ul li a:hover { color:#25381D; }
+        nav.main ul li a:hover { color:#25381D; }
 
 section { background:#FFF; padding-bottom:40px; }
     section header { border-bottom:1px dashed #B6B6B6; margin-bottom:25px; }
@@ -39,3 +39,7 @@ article:not(:first-child) { border-top:1px dashed #B6B6B6; }
     article h4 { font-size:17px; font-weight:bold; margin-bottom:17px; }
     article footer a { background:#EBEBEB; font-size:18px; color:#666; padding:7px 14px; text-decoration:none; }
         article footer a:hover { background:#0181EB; color:#F8F8F8; }
+
+nav.pagination { border-top:1px dashed #B6B6B6; margin:0 40px; padding-top:30px; text-align:center; }
+    nav.pagination a { color:#AAA; text-decoration:none; font-size:17px; }
+    nav.pagination a:hover { color:#0181EB; }

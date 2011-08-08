@@ -18,4 +18,10 @@
         {% endif %}
     </article>
 {% endfor %}
+
+{% if archive_link %}
+    <nav class="pagination">
+        <a href="{{ archive_link }}">- Blog Archives -</a>
+    </nav>
+{% endif %}
 {% endblock %}
