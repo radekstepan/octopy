@@ -39,26 +39,27 @@ def install():
 
     # source directory
     while True:
-        cfg['SOURCE_DIR'] = raw_input('Source directory (usually \'source\') ').strip()
+        cfg['SOURCE_DIR'] = raw_input('Source directory (usually \'source\') ').strip().strip('/')
         if cfg['SOURCE_DIR']:
             break
 
     # posts directory
     while True:
-        cfg['POSTS_DIR'] = raw_input('Posts directory within source directory (usually \'_posts\') ').strip()
+        cfg['POSTS_DIR'] = raw_input('Posts directory within source directory (usually \'blog\') ').strip().strip('/')
         if cfg['POSTS_DIR']:
             break
 
     # public (target) directory
     while True:
-        cfg['PUBLIC_DIR'] = raw_input('Public directory with published content (usually \'public\') ').strip()
+        cfg['PUBLIC_DIR'] = raw_input('Public directory with published content (usually \'public\') ').strip().strip('/')
         if cfg['PUBLIC_DIR']:
             break
 
     # base url for the site
     while True:
-        cfg['BASE_URL'] = raw_input('Base url for the site (e.g. \'http://localhost\') ').strip()
+        cfg['BASE_URL'] = raw_input('Base url for the site (e.g. \'http://localhost\') ').strip().strip('/')
         if cfg['BASE_URL']:
+            cfg['BASE_URL'] += "/%s/" % cfg['PUBLIC_DIR']
             break
 
     python_code = []
