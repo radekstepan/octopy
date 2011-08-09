@@ -113,7 +113,7 @@ def date_filter(value):
 class Pyev:
 
     # these key value pairs are allowed in source
-    allowed_meta = {'layout', 'title', 'date', 'publish'}
+    allowed_meta = ['layout', 'title', 'date', 'publish']
 
     def __init__(self):
         self.dir = os.getcwd()
