@@ -160,7 +160,7 @@ class Pyev:
             os.makedirs(path)
             # create page.markdown
             with open(path + "/index.markdown", 'w') as f:
-                f.write('---\nlayout: page\ntitle: "%s"\ndate: %i-%i-%i %i:%i\n---\n' %
+                f.write('---\nlayout: page\ntitle: %s\ndate: %i-%i-%i %i:%i\n---\n' %
                         (title, self.date.year, self.date.month, self.date.day, self.date.hour, self.date.minute))
             print 'Page created.\n'
 
