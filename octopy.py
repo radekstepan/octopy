@@ -238,6 +238,7 @@ class Pyev:
                       for x in range(config.LATEST_POSTS if config.LATEST_POSTS < len(index) else len(index))]
 
             # should we display an archive?
+            archive_link = None
             if latest < index:
                 archive_link = config.BASE_URL+config.POSTS_DIR+'/archives'
 
