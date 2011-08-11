@@ -260,6 +260,16 @@ class Pyev:
             with codecs.open(config.PUBLIC_DIR + "/index.html", 'w', 'utf-8') as f:
                 f.write(html)
 
+            # search
+            template = self.jinja.get_template('site/search.html')
+            html = template.render(base_url=config.BASE_URL, title=config.TITLE, subtitle=config.SUBTITLE)
+            # write the html
+            if not os.path.isdir(config.PUBLIC_DIR + '/search'):
+                os.makedirs(config.PUBLIC_DIR + '/search')
+            with codecs.open(config.PUBLIC_DIR + "/search/index.html", 'w', 'utf-8') as f:
+                f.write(html)
+            
+
         # copy over css, js, img
         for d in ('css', 'img', 'js'):
             if os.path.isdir('templates/%s' % d):
