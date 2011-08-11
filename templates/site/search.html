@@ -1,4 +1,6 @@
 {% extends "layout.html" %}
+{% block script %}<script src="js/jquery-1.6.2.min.js"></script>{% endblock %}
+
 {% block body %}
 <article>
 <header>
@@ -6,4 +8,20 @@
 </header>
 
 </article>
+
+<script type="text/javascript">
+(function() {
+    function findQ() {
+        var params = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for (var i = 0; i < params.length; i++){
+            var param = params[i].split('=');
+            if (param[0] == 'q') return param[1];
+        }
+    }
+    var q = findQ();
+    if (q) {
+        $('article header h1').text($('article header h1').text() + ' for "'+q.replace('+', ' ')+'"');
+    }
+})();
+</script>
 {% endblock %}
