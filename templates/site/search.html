@@ -11,16 +11,44 @@
 
 <script type="text/javascript">
 (function() {
-    function findQ() {
+    // binary search
+    function bSearch(array, key, value, low, high) {
+        if (high < low) {
+            return -1; // not found
+        }
+
+        var i = low + (high - low) / 2;
+
+        if (array[i][key] > value) {
+            return bSearch(array, key, value, low, i - 1); // go low
+        } else if (array[i][key] < value) {
+            return bSearch(array, key, value, i + 1, high); // go high
+        } else {
+            return i; // found
+        }
+    }
+
+    // get query param
+    var q = (function() {
         var params = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
         for (var i = 0; i < params.length; i++){
             var param = params[i].split('=');
             if (param[0] == 'q') return param[1];
         }
-    }
-    var q = findQ();
+    })();
     if (q) {
+        // TODO: fetch the index
+        var idx = [{"k":"car", "v":["A", "B"]}, {"k":"pussy", "v":["C", "D"]}, {"k":"steal", "v":["B", "C"]}];
+
         $('article header h1').text($('article header h1').text() + ' for "'+q.replace('+', ' ')+'"');
+        q = q.split('+');
+        // traverse the query
+        for (var i = 0; i < q.length; i++) {
+            var k = bSearch(idx, "k", q[i], 0, idx.length - 1);
+            if (k >= 0) {
+                alert(q[i] + " is in the index at position " + k);
+            }
+        }
     }
 })();
 </script>

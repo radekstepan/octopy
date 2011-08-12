@@ -260,6 +260,8 @@ class Pyev:
             with codecs.open(config.PUBLIC_DIR + "/index.html", 'w', 'utf-8') as f:
                 f.write(html)
 
+            # TODO: write search index
+
             # search
             template = self.jinja.get_template('site/search.html')
             html = template.render(base_url=config.BASE_URL, title=config.TITLE, subtitle=config.SUBTITLE)
