@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf -*-
 
-import sys, os, codecs, unicodedata, re, datetime, markdown as markup, shutil
+import sys, os, codecs, unicodedata, re, datetime, time, markdown as markup, shutil
 from jinja2 import Environment, PackageLoader
 
 def install():
@@ -239,7 +239,9 @@ class Pyev:
                         index.append(meta)
         if index:
             # latest posts
-            latest = [sorted(index, key=lambda post_date: post_date['date'])[x]
+            latest = [sorted(index,
+                             key=lambda post_date: time.mktime(time.strptime(post_date['date'], "%Y-%m-%d %H:%M")),
+                             reverse=True)[x]
                       for x in range(config.LATEST_POSTS if config.LATEST_POSTS < len(index) else len(index))]
 
             # should we display an archive?
