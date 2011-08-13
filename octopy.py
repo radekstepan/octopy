@@ -16,7 +16,8 @@ def install():
         'SOURCE_DIR': '',
         'POSTS_DIR': '',
         'PUBLIC_DIR': '',
-        'BASE_URL': ''
+        'BASE_URL': '',
+        'COPY_DIRS': ('css', 'img', 'js')
     }
 
     # site title
@@ -270,7 +271,7 @@ class Pyev:
                 f.write(html)
 
         # copy over css, js, img
-        for d in ('css', 'img', 'js'):
+        for d in config.COPY_DIRS:
             if os.path.isdir('templates/%s' % d):
                 for e in os.walk('templates/%s' % d):
                     if e[-1]:
