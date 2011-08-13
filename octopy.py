@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf -*-
 
-import sys, os, codecs, unicodedata, re, datetime, markdown, shutil
+import sys, os, codecs, unicodedata, re, datetime, markdown as markup, shutil
 from jinja2 import Environment, PackageLoader
 
 def install():
@@ -108,6 +108,12 @@ def date_filter(value):
     value[1] = '%s%s,' % (value[1].lstrip('0'), suffix(int(value[1])))
     return ' '.join(value)
 
+def markdown(text):
+    """
+    Spit out HTML from Markdown syntax (with code tag fixes)
+    """
+    return markup.markdown(text.replace("<code>", "<code>\n"))
+
 class Pyev:
 
     # these key value pairs are allowed in source
@@ -207,7 +213,7 @@ class Pyev:
                     if not os.path.isdir(public_path):
                         os.makedirs(public_path)
                     # parse the source file from Markdown
-                    content = markdown.markdown(markup)
+                    content = markdown(markup)
                     # call Jinja
                     if meta['layout'] == 'post':
                         template = self.jinja.get_template('posts/post.html')
@@ -229,7 +235,7 @@ class Pyev:
                             if i < 0:
                                 meta['more_content'] = True
                                 break
-                        meta['content'] = markdown.markdown('\n\n'.join(content))
+                        meta['content'] = markdown('\n\n'.join(content))
                         index.append(meta)
         if index:
             # latest posts

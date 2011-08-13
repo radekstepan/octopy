@@ -54,3 +54,7 @@ nav.pagination { border-top:1px dashed #B6B6B6; margin:0 40px; padding-top:30px;
 #blog-archive h2 a { color:#222; text-decoration:none; }
 #blog-archive h2 a:hover { color:#0181EB; text-decoration:underline; }
 #blog-archive p.meta { display:inline-block; vertical-align:bottom; width:130px; }
+
+pre { background:#002B36; -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; overflow:auto;
+    border:1px solid #073642; line-height:18px; font-size:13px; margin-bottom:27px; padding:10px 13px; color:#93A1A1;
+    font-family:Menlo, Monaco, "Andale Mono", "lucida console", "Courier New", monospace; }
