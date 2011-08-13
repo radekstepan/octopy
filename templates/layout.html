@@ -17,8 +17,9 @@
         <p><a href="/">{{ title }}</a> {{ subtitle }}</p>
     </header>
     <nav class="main">
-        <form action="search/" class="search">
+        <form action="http://google.com/search" class="search">
             <input type="text" name="q" placeholder="Search">
+            <input type="hidden" name="q" value="site:{{ base_url }}">
         </form>
         <ul>
             <li><a href="{{ base_url }}">Blog</a></li>
