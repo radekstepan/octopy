@@ -19,7 +19,8 @@ def install():
         'BASE_URL': '',
         'COPY_DIRS': ('css', 'img', 'js'),
         'ATOM_AUTHOR_NAME': 'John Doe',
-        'ATOM_AUTHOR_EMAIL': 'johndoe@example.com'
+        'ATOM_AUTHOR_EMAIL': 'johndoe@example.com',
+        'DISQUS': ''
     }
 
     # site title
@@ -236,7 +237,7 @@ class Octopy:
                     else:
                         template = self.jinja.get_template('pages/page.html')
                     html = template.render(content=content, meta=meta, base_url=config.BASE_URL, title=config.TITLE,
-                                           subtitle=config.SUBTITLE, page_title=meta['title'])
+                                           subtitle=config.SUBTITLE, page_title=meta['title'], disqus=config.DISQUS)
                     # write the html
                     with codecs.open(public_path + "/index.html", 'w', 'utf-8') as f:
                         f.write(html)

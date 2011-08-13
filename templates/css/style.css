@@ -48,6 +48,10 @@ article:not(:first-child) { border-top:1px dashed #B6B6B6; }
     article footer a { background:#EBEBEB; font-size:18px; color:#666; padding:7px 14px; text-decoration:none; }
         article footer a:hover { background:#0181EB; color:#F8F8F8; }
 
+    article footer.comments { border-top:1px dashed #B6B6B6; }
+        article footer.comments h2 { margin-top:60px; }
+        article footer.comments a { padding:0; background:none; }
+
 nav.pagination { border-top:1px dashed #B6B6B6; margin:0 40px; padding-top:30px; text-align:center; }
     nav.pagination a { color:#AAA; text-decoration:none; font-size:17px; }
     nav.pagination a:hover { color:#0181EB; }
