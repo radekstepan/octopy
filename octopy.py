@@ -115,10 +115,10 @@ def markdown(text):
     """
     return markup.markdown(text.replace("<code>", "<code>\n"))
 
-class Pyev:
+class Octopy:
 
     # these key value pairs are allowed in source
-    allowed_meta = ['layout', 'title', 'date', 'publish']
+    allowed_meta = ['layout', 'title', 'date', 'publish', 'categories']
 
     def __init__(self):
         self.dir = os.getcwd()
@@ -146,7 +146,7 @@ class Pyev:
             os.makedirs(path)
             # create post.markdown
             with open(path + "/index.markdown", 'w') as f:
-                f.write('---\nlayout: post\ntitle: %s\ndate: %i-%i-%i %s\n---\n' %
+                f.write('---\nlayout: post\ntitle: %s\ndate: %i-%i-%i %s\ncategories: \n---\n' %
                         (title, self.date.year, self.date.month, self.date.day, self.hourminute))
             print 'Post created.\n'
 
@@ -176,7 +176,7 @@ class Pyev:
         """
         import config
 
-        index = []
+        index, categories = [], set()
         # recursively go through source directories
         for e in os.walk(config.SOURCE_DIR):
             # is file?
@@ -205,6 +205,10 @@ class Pyev:
                     # check if we can publish
                     if 'publish' in meta and meta['publish'] != 'true':
                         continue
+                    # categories
+                    if 'categories' in meta:
+                        meta['categories'] = [slugify(c) for c in meta['categories'].split(',') if len(c) > 0]
+                        categories = categories.union(set(meta['categories']))
                     # figure target directory and published directory
                     public_path = e[0].split('/')
                     meta['path'] = '/'.join([public_path[x] for x in range(1, len(public_path))])
@@ -254,9 +258,24 @@ class Pyev:
 
                 # call Jinja for archive
                 template = self.jinja.get_template('posts/archive.html')
-                html = template.render(base_url=config.BASE_URL, title=config.TITLE, subtitle=config.SUBTITLE, posts=index)
+                html = template.render(base_url=config.BASE_URL, posts_dir=config.POSTS_DIR, title=config.TITLE,
+                                       subtitle=config.SUBTITLE, posts=index)
                 # write the html
                 archives_dir = '/'.join([config.PUBLIC_DIR , config.POSTS_DIR, "archives"])
+                if not os.path.isdir(archives_dir):
+                    os.makedirs(archives_dir)
+                with codecs.open(archives_dir + "/index.html", 'w', 'utf-8') as f:
+                    f.write(html)
+
+            # categories
+            for category in categories:
+                # call Jinja for archive
+                template = self.jinja.get_template('posts/category.html')
+                html = template.render(base_url=config.BASE_URL, posts_dir=config.POSTS_DIR, title=config.TITLE,
+                                       subtitle=config.SUBTITLE, category=category,
+                                       posts=[p for p in index if category in p['categories']])
+                # write the html
+                archives_dir = '/'.join([config.PUBLIC_DIR , config.POSTS_DIR, "categories", category])
                 if not os.path.isdir(archives_dir):
                     os.makedirs(archives_dir)
                 with codecs.open(archives_dir + "/index.html", 'w', 'utf-8') as f:
@@ -288,13 +307,13 @@ if __name__ == '__main__':
         command = sys.argv[1].strip()
 
         if command.find("new_post") > -1:
-            p = Pyev()
+            p = Octopy()
             p.new_post(command[command.find('[') + 1:command.find(']')])
         elif command.find("new_page") > -1:
-            p = Pyev()
+            p = Octopy()
             p.new_page(command[command.find('[') + 1:command.find(']')])
         elif command.find('publish') > -1:
-            p = Pyev()
+            p = Octopy()
             p.publish()
         elif command.find('install') > -1:
             install()

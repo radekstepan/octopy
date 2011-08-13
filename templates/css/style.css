@@ -50,10 +50,14 @@ nav.pagination { border-top:1px dashed #B6B6B6; margin:0 40px; padding-top:30px;
     nav.pagination a:hover { color:#0181EB; }
 
 #blog-archive article { padding:10px; }
-#blog-archive h2 { display:inline-block; }
-#blog-archive h2 a { color:#222; text-decoration:none; }
-#blog-archive h2 a:hover { color:#0181EB; text-decoration:underline; }
-#blog-archive p.meta { display:inline-block; vertical-align:bottom; width:130px; }
+#blog-archive h2 { display:inline-block; margin:0; }
+    #blog-archive h2 a { color:#222; text-decoration:none; }
+    #blog-archive h2 a:hover { color:#0181EB; text-decoration:underline; }
+#blog-archive p.meta { display:inline-block; vertical-align:bottom; width:130px; margin:0; }
+#blog-archive footer { color:#AAA; font-size:17px; font-family:'PT Sans', 'Helvetica Neue', Arial, sans-serif;
+    margin:10px 0 20px 130px; }
+    #blog-archive footer a { background:none; padding:0; color:#AAA; text-decoration:underline; }
+    #blog-archive footer a:hover { color:#0181EB; }
 
 pre { background:#002B36; -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; overflow:auto;
     border:1px solid #073642; line-height:18px; font-size:13px; margin-bottom:27px; padding:10px 13px; color:#93A1A1;
