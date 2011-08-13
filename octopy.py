@@ -102,8 +102,6 @@ def date_filter(value):
             return 'rd'
         return 'th'
 
-    # pad with extra zeroes, not required, but fun :)
-    value = re.sub("-(?!0)", "-0", value)
     # format
     value = datetime.datetime.strptime(value, '%Y-%m-%d %H:%M').strftime('%b %d %Y').split()
     # st, nd, rd, th suffix
@@ -118,6 +116,7 @@ class Pyev:
     def __init__(self):
         self.dir = os.getcwd()
         self.date = datetime.datetime.now()
+        self.hourminute = ":".join(['%02d' % self.date.hour, '%02d' % self.date.minute])
 
         # Jinja
         self.jinja = Environment(loader=PackageLoader('octopy', 'templates'))
@@ -140,8 +139,8 @@ class Pyev:
             os.makedirs(path)
             # create post.markdown
             with open(path + "/index.markdown", 'w') as f:
-                f.write('---\nlayout: post\ntitle: %s\ndate: %i-%i-%i %i:%i\n---\n' %
-                        (title, self.date.year, self.date.month, self.date.day, self.date.hour, self.date.minute))
+                f.write('---\nlayout: post\ntitle: %s\ndate: %i-%i-%i %s\n---\n' %
+                        (title, self.date.year, self.date.month, self.date.day, self.hourminute))
             print 'Post created.\n'
 
     def new_page(self, title):
@@ -160,8 +159,8 @@ class Pyev:
             os.makedirs(path)
             # create page.markdown
             with open(path + "/index.markdown", 'w') as f:
-                f.write('---\nlayout: page\ntitle: %s\ndate: %i-%i-%i %i:%i\n---\n' %
-                        (title, self.date.year, self.date.month, self.date.day, self.date.hour, self.date.minute))
+                f.write('---\nlayout: page\ntitle: %s\ndate: %i-%i-%i %s\n---\n' %
+                        (title, self.date.year, self.date.month, self.date.day, self.hourminute))
             print 'Page created.\n'
 
     def publish(self):
