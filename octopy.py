@@ -238,11 +238,13 @@ class Pyev:
                         meta['content'] = markdown('\n\n'.join(content))
                         index.append(meta)
         if index:
+            # sort
+            index = sorted(index,
+                           key=lambda post_date: time.mktime(time.strptime(post_date['date'], "%Y-%m-%d %H:%M")),
+                           reverse=True)
+
             # latest posts
-            latest = [sorted(index,
-                             key=lambda post_date: time.mktime(time.strptime(post_date['date'], "%Y-%m-%d %H:%M")),
-                             reverse=True)[x]
-                      for x in range(config.LATEST_POSTS if config.LATEST_POSTS < len(index) else len(index))]
+            latest = index[:config.LATEST_POSTS if config.LATEST_POSTS < len(index) else len(index)]
 
             # should we display an archive?
             archive_link = None
