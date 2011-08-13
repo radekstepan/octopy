@@ -233,7 +233,7 @@ class Pyev:
                         index.append(meta)
         if index:
             # latest posts
-            latest = [sorted(index, key=lambda post_date: post_date['date'], reverse=True)[x]
+            latest = [sorted(index, key=lambda post_date: post_date['date'])[x]
                       for x in range(config.LATEST_POSTS if config.LATEST_POSTS < len(index) else len(index))]
 
             # should we display an archive?
