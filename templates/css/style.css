@@ -20,11 +20,14 @@ nav.main { background-color:#C5DCBB; background:url('../img/noise.png'), linear-
         nav.main ul li a { color:#5D8C49; text-shadow:#E7F1E3 0 1px; font-size:18px; text-decoration:none; float:left;
             padding:2px 0; }
         nav.main ul li a:hover { color:#25381D; }
-    nav.main form.search { float:right; margin:3px 34px 0 0; }
+    nav.main form.search { float:right; margin:3px 10px 0 0; }
         nav.main form.search input { -moz-border-radius:0.5em; -webkit-border-radius:0.5em; -o-border-radius:0.5em;
             border-radius:0.5em; -moz-box-shadow:#CBDFC2 0 1px; -webkit-box-shadow:#CBDFC2 0 1px; width:197px;
             -o-box-shadow:#CBDFC2 0 1px; box-shadow:#CBDFC2 0 1px; background-color:#F0F6ED; border:1px solid #A8CA9A;
             color:#888; font-size:15px; padding:2px; font-family:'PT Sans', 'Helvetica Neue', Arial, sans-serif; }
+
+    nav.main #rss { background:url('../img/rss.png') no-repeat top left; display:inline-block; float:right; height:22px;
+        width:22px; margin:8px 34px 0 0; }
 
 section { background:#FFF; padding-bottom:40px; }
     section header { border-bottom:1px dashed #B6B6B6; margin-bottom:25px; }

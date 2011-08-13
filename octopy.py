@@ -17,7 +17,9 @@ def install():
         'POSTS_DIR': '',
         'PUBLIC_DIR': '',
         'BASE_URL': '',
-        'COPY_DIRS': ('css', 'img', 'js')
+        'COPY_DIRS': ('css', 'img', 'js'),
+        'ATOM_AUTHOR_NAME': 'John Doe',
+        'ATOM_AUTHOR_EMAIL': 'johndoe@example.com'
     }
 
     # site title
@@ -109,6 +111,14 @@ def date_filter(value):
     value[1] = '%s%s,' % (value[1].lstrip('0'), suffix(int(value[1])))
     return ' '.join(value)
 
+def atom_date_filter(value):
+    """
+    Will format a date to conform to that of an atom feed
+    """
+    d = value.split()
+    d[0] = '-'.join(['%02d' % int(p) for p in d[0].split('-')])
+    return 'T'.join(d)+":00Z"
+
 def markdown(text):
     """
     Spit out HTML from Markdown syntax (with code tag fixes)
@@ -128,6 +138,7 @@ class Octopy:
         # Jinja
         self.jinja = Environment(loader=PackageLoader('octopy', 'templates'))
         self.jinja.filters['date'] = date_filter
+        self.jinja.filters['atom_date'] = atom_date_filter
 
     def new_post(self, title):
         """
@@ -287,6 +298,13 @@ class Octopy:
                                    archive_link=archive_link)
             # write the html
             with codecs.open(config.PUBLIC_DIR + "/index.html", 'w', 'utf-8') as f:
+                f.write(html)
+
+            # rss feed
+            template = self.jinja.get_template('posts/atom.xml')
+            html = template.render(posts=index, base_url=config.BASE_URL, title=config.TITLE, subtitle=config.SUBTITLE,
+                                   author_name=config.ATOM_AUTHOR_NAME, author_email=config.ATOM_AUTHOR_EMAIL)
+            with codecs.open(config.PUBLIC_DIR + "/atom.xml", 'w', 'utf-8') as f:
                 f.write(html)
 
         # copy over css, js, img

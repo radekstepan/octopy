@@ -14,9 +14,10 @@
 </head>
 <body>
     <header class="title">
-        <p><a href="/">{{ title }}</a> {{ subtitle }}</p>
+        <p><a href="{{ base_url }}">{{ title }}</a> {{ subtitle }}</p>
     </header>
     <nav class="main">
+        <a id="rss" href="{{ base_url }}atom.xml"></a>
         <form action="http://google.com/search" class="search">
             <input type="text" name="q" placeholder="Search">
             <input type="hidden" name="q" value="site:{{ base_url }}">
