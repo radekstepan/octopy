@@ -69,3 +69,4 @@ nav.pagination { border-top:1px dashed #B6B6B6; margin:0 40px; padding-top:30px;
 pre { background:#002B36; -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; overflow:auto;
     border:1px solid #073642; line-height:18px; font-size:13px; margin-bottom:27px; padding:10px 13px; color:#93A1A1;
     font-family:Menlo, Monaco, "Andale Mono", "lucida console", "Courier New", monospace; }
+blockquote { font-style:italic; margin:10px 0 10px 20px; padding-left:15px; border-left:3px solid #D4D4D4; }
