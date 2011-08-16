@@ -2,7 +2,14 @@
 # -*- coding: utf -*-
 
 import sys, os, codecs, unicodedata, re, datetime, time, markdown as markup, shutil
+
+# Jinja2
 from jinja2 import Environment, PackageLoader
+
+# Pygments
+from pygments.lexers import get_lexer_by_name
+from pygments import highlight
+from pygments.formatters import HtmlFormatter
 
 def install():
     """
@@ -122,9 +129,21 @@ def atom_date_filter(value):
 
 def markdown(text):
     """
-    Spit out HTML from Markdown syntax (with code tag fixes)
+    Spit out HTML from Markdown syntax (with code tag fixes, Pygments etc.)
     """
-    return markup.markdown(text.replace("<code>", "<code>\n"))
+
+    def pygments(m):
+        return highlight(m.group(2), get_lexer_by_name(m.group(1)), HtmlFormatter())
+
+    regex = re.compile('<code class="([^"]*)">((.|\n)*?)</code>')
+    #print regex.findall(text)
+
+    # add newline after a begin code tag
+    text = text.replace("<code>", "<code>\n")
+    # Pygments where <code> tags have a class
+    text = re.sub(re.compile('<code class="([^"]*)">((.|\n)*?)</code>'), pygments, text, re.MULTILINE)
+    # apply markdown
+    return markup.markdown(text)
 
 class Octopy:
 
