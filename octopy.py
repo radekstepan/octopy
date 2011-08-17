@@ -135,13 +135,10 @@ def markdown(text):
     def pygments(m):
         return highlight(m.group(2), get_lexer_by_name(m.group(1)), HtmlFormatter())
 
-    regex = re.compile('<code class="([^"]*)">((.|\n)*?)</code>')
-    #print regex.findall(text)
-
     # add newline after a begin code tag
     text = text.replace("<code>", "<code>\n")
     # Pygments where <code> tags have a class
-    text = re.sub(re.compile('<code class="([^"]*)">((.|\n)*?)</code>'), pygments, text, re.MULTILINE)
+    text = re.sub(re.compile('<code class="([^"]*)">((.|\n)*?)</code>'), pygments, text)
     # apply markdown
     return markup.markdown(text)
 
@@ -260,6 +257,7 @@ class Octopy:
                     # write the html
                     with codecs.open(public_path + "/index.html", 'w', 'utf-8') as f:
                         f.write(html)
+                    print 'publishing "%s"' % meta['title']
                     # save to site index if is post
                     if meta['layout'] == 'post':
                         # preview for homepage?
